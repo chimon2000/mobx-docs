@@ -1,0 +1,16 @@
+{
+  "name": "mobx.dart",
+  "version": "1.0.0",
+  "description": "TBD",
+  "main": "server.js",
+  "scripts": {
+    "build": "fiddly",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "fiddly": "^0.8.0"
+  },
+  "engines": {
+    "node": "10.x"
+  }
+}

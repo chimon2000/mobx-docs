@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<title>Mobx.dart</title>
+<meta charset="utf-8">
+
+
+<meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="TBD">
+  <meta name="image" content="">
+  <meta itemprop="name" content="Mobx.dart">
+  <meta itemprop="description" content="TBD">
+  <meta itemprop="image" content="">
+  <meta name="og:title" content="Mobx.dart">
+  <meta name="og:description" content="TBD">
+  <meta name="og:url" content="undefined">
+  <meta name="og:site_name" content="Mobx.dart">
+  <meta name="og:type" content="website">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="white">
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+<div id="fiddly"><div class="body light"><div class="container"><header><h1>Mobx.dart</h1><img class="logo" src="/assets/mobx.png" alt="Mobx.dart logo" />
+      <nav><ul><li><a href="/">Home</a></li><li><a href="/core_concepts.html">Core_concepts</a></li><li><a href="/community.html">Community</a></li></ul></nav>
+      </header><h2 id="core-concepts"><a id="user-content-core-concepts" class="anchor" href="#core-concepts" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core Concepts</h2>
+<p>At the heart of MobX are three important concepts: <strong>Observables</strong>, <strong>Actions</strong> and <strong>Reactions</strong>.</p>
+<p><a href="#observables">Observables</a></p>
+<p><a href="#actions">Actions</a></p>
+<p><a href="#reactions">Reactions</a></p>
+<p>At the heart of MobX are three important concepts: <strong>Observables</strong>, <strong>Actions</strong> and <strong>Reactions</strong>.</p>
+<h3 id="observables"><a id="user-content-observables" class="anchor" href="#observables" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Observables</h3>
+<p>Observables represent the reactive-state of your application. They can be simple scalars to complex object trees. By
+defining the state of the application as a tree of observables, you can expose a <em>reactive-state-tree</em> that the UI
+(or other observers in the app) consume.</p>
+<p>A simple reactive-counter is represented by the following observable:</p>
+<pre class="language-dart"><code class="language-dart"><span class="token keyword">import</span> <span class="token string">'package:mobx/mobx.dart'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">final</span> counter <span class="token operator">=</span> <span class="token function">Observable</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>More complex observables, such as classes, can be created as well.</p>
+<pre class="language-dart"><code class="language-dart"><span class="token keyword">class</span> <span class="token class-name">Counter</span> <span class="token punctuation">{</span>
+  <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    increment <span class="token operator">=</span> <span class="token function">Action</span><span class="token punctuation">(</span>_increment<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">final</span> _value <span class="token operator">=</span> <span class="token function">Observable</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  int <span class="token keyword">get</span> value <span class="token operator">=</span><span class="token operator">></span> _value<span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+
+  <span class="token keyword">set</span> <span class="token function">value</span><span class="token punctuation">(</span>int newValue<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> _value<span class="token punctuation">.</span>value <span class="token operator">=</span> newValue<span class="token punctuation">;</span>
+  Action increment<span class="token punctuation">;</span>
+
+  <span class="token keyword">void</span> <span class="token function">_increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    _value<span class="token punctuation">.</span>value<span class="token operator">++</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>On first sight, this does look like some boilerplate code which can quickly go out of hand!
+This is why we added <a href="mobx_codegen" target="_blank">mobx_codegen</a> to the mix that allows you to replace the above code with the following:</p>
+<pre class="language-dart"><code class="language-dart"><span class="token keyword">import</span> <span class="token string">'package:mobx/mobx.dart'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">part</span> <span class="token string">'counter.g.dart'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Counter</span> <span class="token operator">=</span> CounterBase <span class="token keyword">with</span> _$Counter<span class="token punctuation">;</span>
+
+<span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">CounterBase</span> <span class="token keyword">implements</span> <span class="token class-name">Store</span> <span class="token punctuation">{</span>
+  <span class="token metadata symbol">@observable</span>
+  int value <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+  <span class="token metadata symbol">@action</span>
+  <span class="token keyword">void</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    value<span class="token operator">++</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>Note the use of annotations to mark the observable properties of the class. Yes, there is some header boilerplate here
+but its fixed for any class. As you build more complex classes this boilerplate
+will fade away and you will mostly focus on the code within the braces.</p>
+<p><strong>Note</strong>: Annotations are available via the <a href="mobx_codegen" target="_blank">mobx_codegen</a> package.</p>
+<h3 id="actions"><a id="user-content-actions" class="anchor" href="#actions" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Actions</h3>
+<p>Actions are how you mutate the observables. Rather than mutating them directly, actions
+add a semantic meaning to the mutations. For example, instead of just doing <code>value++</code>,
+firing an <code>increment()</code> action carries more meaning. Besides, actions also batch up
+all the notifications and ensure the changes are notified only after they complete.
+Thus the observers are notified only upon the atomic completion of the action.</p>
+<p>Note that actions can also be nested, in which case the notifications go out
+when the top-most action has completed.</p>
+<pre class="language-dart"><code class="language-dart"><span class="token keyword">final</span> counter <span class="token operator">=</span> <span class="token function">Observable</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">final</span> increment <span class="token operator">=</span> <span class="token function">Action</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  counter<span class="token punctuation">.</span>value<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>When creating actions inside a class, you can take advantage of annotations!</p>
+<pre class="language-dart"><code class="language-dart"><span class="token keyword">import</span> <span class="token string">'package:mobx/mobx.dart'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">part</span> <span class="token string">'counter.g.dart'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Counter</span> <span class="token operator">=</span> CounterBase <span class="token keyword">with</span> _$Counter<span class="token punctuation">;</span>
+
+<span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">CounterBase</span> <span class="token keyword">implements</span> <span class="token class-name">Store</span> <span class="token punctuation">{</span>
+  <span class="token metadata symbol">@observable</span>
+  int value <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+  <span class="token metadata symbol">@action</span>
+  <span class="token keyword">void</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    value<span class="token operator">++</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<h3 id="reactions"><a id="user-content-reactions" class="anchor" href="#reactions" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reactions</h3>
+<p>Reactions complete the <em>MobX triad</em> of <strong>observables</strong>, <strong>actions</strong> and <strong>reactions</strong>. They are
+the observers of the reactive-system and get notified whenever an observable they
+track is changed. Reactions come in few flavors as listed below. All of them
+return a <code>ReactionDisposer</code>, a function that can be called to dispose the reaction.</p>
+<p><strong><code>ReactionDisposer autorun(Function(Reaction) fn)</code></strong></p>
+<p>Runs the reaction immediately and also on any change in the observables used inside
+<code>fn</code>.</p>
+<p><strong><code>ReactionDisposer reaction&lt;T&gt;(T Function(Reaction) predicate, void Function(T) effect)</code></strong></p>
+<p>Monitors the observables used inside the <code>predicate()</code> function and runs the <code>effect()</code> when
+the predicate returns a different value. Only the observables inside <code>predicate()</code> are tracked.</p>
+<p><strong><code>ReactionDisposer when(bool Function(Reaction) predicate, void Function() effect)</code></strong></p>
+<p>Monitors the observables used inside <code>predicate()</code> and runs the <code>effect()</code> upon a change. After the <code>effect()</code> is run, <code>when</code> automatically disposes itself. So you can think of <em>when</em> as a <em>one-time</em> <code>reaction</code>.</p>
+<p><strong><code>Future&lt;void&gt; asyncWhen(bool Function(Reaction) predicate)</code></strong></p>
+<p>Similar to <code>when</code> but returns a <code>Future</code>, which is fulfilled when the <code>predicate()</code> returns <em>true</em>. This is a convenient way of waiting for the <code>predicate()</code> to turn <code>true</code>.</p>
+<pre class="language-dart"><code class="language-dart"><span class="token keyword">final</span> completed <span class="token operator">=</span> <span class="token function">Observable</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">waitForCompletion</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">async</span> <span class="token punctuation">{</span>
+  <span class="token keyword">await</span> <span class="token function">asyncWhen</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> _completed<span class="token punctuation">.</span>value <span class="token operator">==</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">'Completed'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</div></div></div>
+
+</body>
+</html>
