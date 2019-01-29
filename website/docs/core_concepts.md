@@ -1,4 +1,4 @@
-## Core Concepts
+# Core Concepts
 
 At the heart of MobX are three important concepts: **Observables**, **Actions** and **Reactions**.
 
@@ -10,7 +10,7 @@ At the heart of MobX are three important concepts: **Observables**, **Actions** 
 
 At the heart of MobX are three important concepts: **Observables**, **Actions** and **Reactions**.
 
-### Observables
+## Observables
 
 Observables represent the reactive-state of your application. They can be simple scalars to complex object trees. By
 defining the state of the application as a tree of observables, you can expose a _reactive-state-tree_ that the UI
@@ -73,7 +73,7 @@ will fade away and you will mostly focus on the code within the braces.
 
 **Note**: Annotations are available via the [mobx_codegen](mobx_codegen) package.
 
-### Actions
+## Actions
 
 Actions are how you mutate the observables. Rather than mutating them directly, actions
 add a semantic meaning to the mutations. For example, instead of just doing `value++`,
@@ -113,7 +113,7 @@ abstract class CounterBase implements Store {
 
 ```
 
-### Reactions
+## Reactions
 
 Reactions complete the _MobX triad_ of **observables**, **actions** and **reactions**. They are
 the observers of the reactive-system and get notified whenever an observable they
