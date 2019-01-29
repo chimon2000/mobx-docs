@@ -9,8 +9,5 @@
   },
   "dependencies": {
     "fiddly": "^0.8.0"
-  },
-  "engines": {
-    "node": "10.x"
   }
 }
